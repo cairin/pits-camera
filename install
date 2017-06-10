@@ -41,32 +41,32 @@ case "$rev" in
             ;;
 esac
 
-read -rp $'\n\nDo you want to enable the camera? [Y,n]' choice 
-case $choice in  
+read -rp $'\n\nDo you want to enable the camera? [Y,n]' choice
+case $choice in
   n|N) ;;
-  *) sudo raspi-config nonint do_camera 0 ;; 
+  *) sudo raspi-config nonint do_camera 0 ;;
 esac
 
-read -rp $'\n\nAre you using Lora transmisssion? [Y,n]' choice 
-case $choice in  
+read -rp $'\n\nAre you using Lora transmisssion? [Y,n]' choice
+case $choice in
   n|N) ;;
-  *) sudo raspi-config nonint do_spi 0 ;; 
+  *) sudo raspi-config nonint do_spi 0 ;;
 esac
 
 read -rp $'\n\nEnable I2C? [Y,n]' choice
-case $choice in  
+case $choice in
   n|N) ;;
-  *) sudo raspi-config nonint do_i2c 0 ;; 
+  *) sudo raspi-config nonint do_i2c 0 ;;
 esac
 
-read -rp $'\n\nAre you using a USB Webcam[y,N]' choice 
-case $choice in  
+read -rp $'\n\nAre you using a USB Webcam[y,N]' choice
+case $choice in
   n|N) ;;
-  *) 
+  *)
       echo "Installing fswebcam"
       echo "==================="
       sleep 3
-      sudo apt-get install fswebcam ;; 
+      sudo apt-get install fswebcam ;;
 esac
 
 
@@ -101,5 +101,5 @@ echo -e "\n\nInstalling Pi in the Sky Software"
 echo "================================="
 
 cd
-cd pits
+cd pits-camera
 ./build
