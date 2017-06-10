@@ -9,7 +9,7 @@ touch /var/lock/tracker
 case "$1" in
   start)
     echo "Starting script tracker "
-    /home/pi/pits/tracker/startup &
+    /home/pi/pits-camera/tracker/startup &
     ;;
   stop)
     echo "Stopping script tracker"
@@ -21,5 +21,3 @@ case "$1" in
 esac
 
 exit 0
-
-

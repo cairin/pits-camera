@@ -19,6 +19,6 @@ sudo cp init.d/tracker /etc/init.d
 cd /etc/init.d
 sudo chmod +x tracker
 sudo update-rc.d tracker defaults
-cd ~/pits
+cd ~/pits-camera
 
 echo DONE

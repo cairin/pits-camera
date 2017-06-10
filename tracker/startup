@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/pi/pits/tracker
+cd /home/pi/pits-camera/tracker
 sudo modprobe w1-gpio
 sudo modprobe w1_therm
 sudo modprobe i2c-dev
@@ -15,4 +15,3 @@ do
 	sudo ./tracker
 	sleep 5
 done
-

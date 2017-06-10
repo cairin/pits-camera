@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/pi/pits/tracker
+cd /home/pi/pits-camera/tracker
 
 echo Enable audio
 sudo modprobe snd-bcm2835
