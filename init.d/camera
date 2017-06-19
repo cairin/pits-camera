@@ -3,13 +3,13 @@
 #
 
 # Some things that run always
-touch /var/lock/tracker
+touch /var/lock/camera
 
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
     echo "Starting script tracker "
-    /home/pi/pits-camera/tracker/startup &
+    /home/pi/pits-camera/camera/startup &
     ;;
   stop)
     echo "Stopping script tracker"

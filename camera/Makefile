@@ -3,7 +3,7 @@
 SRC=$(wildcard *.c)
 HED=$(wildcard *.h)
 OBJ=$(SRC:.c=.o) # replaces the .c from SRC with .o
-EXE=tracker
+EXE=camera
 
 ifneq ($(wildcard ex_tracker.h),)
   DEFINES=-DEXTRAS_PRESENT
@@ -27,7 +27,7 @@ $(EXE): $(OBJ)   # $(EXE) is dependent on all of the files in $(OBJ) to exist
 
 .PHONY : clean   # .PHONY ignores files named clean
 clean:
-	-$(RM) $(OBJ) 
+	-$(RM) $(OBJ)
 
 tidy:
 	indent $(INDOPT) $(SRC) $(HED)

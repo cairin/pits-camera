@@ -1,17 +1,17 @@
 #!/bin/bash
-cd /home/pi/pits-camera/tracker
+cd /home/pi/pits-camera/camera
 sudo modprobe w1-gpio
 sudo modprobe w1_therm
 sudo modprobe i2c-dev
-./send_aprs &
 echo none | sudo tee /sys/class/leds/led0/trigger
 echo 1 | sudo tee /sys/class/leds/led0/brightness
-sudo ./camera &
+# sudo ./camera &
 #python3 sensors.py &
 #python3 astro_led.py &
 #python3 webstuff.py
-while :
-do
-	sudo ./tracker
-	sleep 5
-done
+sudo ./camera
+# while :
+# do
+# 	sudo ./camera
+# 	sleep 5
+# done

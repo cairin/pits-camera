@@ -25,16 +25,19 @@
 
 #define PHOTO 4
 #define VIDEO 4
-
+int FileName = 0
 
 
 // Handle photo capture interrupt
 void photoFunc(void){
-
+	int FileName += 1;
+	char PhotoCommand[50];
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o %s.jpg", FileName);
 }
 // Handle video capture interrupt
 void videoFunc(void){
-
+	char VideoCommand[50];
+    sprintf( VideoCommand, "raspivid -t 180000 -w 1280 -h 720 -fps 60 -o pivideo.h264 & disown");
 }
 
 int main(void)
@@ -47,10 +50,6 @@ int main(void)
 	}
 
     // Code for sending a command to camera.
-    char PhotoCommand[50];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o %s.jpg", FileName);
-    char VideoCommand[50];
-    sprintf( VideoCommand, "raspivid -t 180000 -w 1280 -h 720 -fps 60 -o pivideo.h264 & disown");
 
     pinMode (PHOTO, INPUT);
     pinMode (VIDEO, INPUT);
@@ -62,5 +61,6 @@ int main(void)
     while (1)
 	{
         // Do nothing..
+		sleep(5);
 	}
 }
