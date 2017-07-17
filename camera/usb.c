@@ -23,7 +23,7 @@
 #define READY 22; // set hi to allow flight computer to know if capsule is ready for release.
 #define RELEASE 23; // in case of emergency release.
 
-void *USBLoop(void*)
+void *USBLoop(void* notused)
 {
     // Open serial channel.
     int handle = serialOpen ("/dev/ttyAMA0", 19200);
