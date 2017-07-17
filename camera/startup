@@ -9,9 +9,9 @@ echo 1 | sudo tee /sys/class/leds/led0/brightness
 #python3 sensors.py &
 #python3 astro_led.py &
 #python3 webstuff.py
-# sudo ./camera
-while :
-do
-	sudo ./camera
-	sleep 5
-done
+sudo ./camera
+# while :
+# do
+# 	sudo ./camera
+# 	sleep 5
+# done
