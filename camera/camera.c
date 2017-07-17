@@ -21,7 +21,7 @@
 #include <pigpio.h>
 #include <inttypes.h>
 
-#include "misc.h"
+#include "usb.h"
 
 #define PHOTO 4;
 #define VIDEO 4;
@@ -32,7 +32,7 @@ int FileName = 0;
 void photoFunc(void){
 	int FileName += 1;
 	char PhotoCommand[50];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o %s.jpg", FileName);
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", FileName);
 }
 // Handle video capture interrupt
 void videoFunc(void){
@@ -42,6 +42,14 @@ void videoFunc(void){
 
 int main(void)
 {
+	pthread_t USBThread;
+
+	if (pthread_create(&USBThread, NULL, USBLoop, NULL))
+	{
+		fprintf(stderr, "Error creating USB thread\n");
+		return 1;
+	}
+
 	// Set up I/O
 	if (wiringPiSetup() == -1)
 	{
