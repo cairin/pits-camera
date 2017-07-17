@@ -32,7 +32,7 @@ int FileName = 0;
 void photoFunc(void){
 	FileName += 1;
 	char PhotoCommand[50];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", FileName);
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", (char)FileName);
 }
 // Handle video capture interrupt
 void videoFunc(void){
@@ -63,8 +63,8 @@ int main(void)
     pinMode (VIDEO, INPUT);
 
     // Perform capture of footage on GPIO signals.
-    wiringPilSR(PHOTO, INT_EDGE_RISING, &photoFunc);
-    wiringPilSR(VIDEO, INT_EDGE_RISING, &videoFunc);
+    wiringPiISR(PHOTO, INT_EDGE_RISING, &photoFunc);
+    wiringPiISR(VIDEO, INT_EDGE_RISING, &videoFunc);
 
     while (1)
 	{
