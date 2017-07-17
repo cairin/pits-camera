@@ -23,21 +23,20 @@
 
 #include "usb.h"
 
-#define PHOTO 4;
-#define VIDEO 4;
-int FileName = 0;
-
+#define PHOTO 4
+#define VIDEO 5
 
 // Handle photo capture interrupt
 void photoFunc(void){
-	int FileName += 1;
-	char PhotoCommand[50];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", FileName);
+	char PhotoCommand[1000];
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o /home/pi/pits-camera/camera/photos/%u.jpg", (unsigned)time(NULL));
+	system(PhotoCommand);
 }
 // Handle video capture interrupt
 void videoFunc(void){
-	char VideoCommand[50];
-    sprintf( VideoCommand, "raspivid -t 180000 -w 1280 -h 720 -fps 60 -o pivideo.h264 & disown");
+	char VideoCommand[1000];
+    sprintf( VideoCommand, "raspivid -t 180000 -w 1280 -h 720 -fps 60 -o /home/pi/pits-camera/camera/video/%u.h264 & disown", (unsigned)time(NULL));
+	system(VideoCommand);
 }
 
 int main(void)
@@ -63,8 +62,8 @@ int main(void)
     pinMode (VIDEO, INPUT);
 
     // Perform capture of footage on GPIO signals.
-    wiringPilSR(PHOTO, INT_EDGE_RISING, &photoFunc);
-    wiringPilSR(VIDEO, INT_EDGE_RISING, &videoFunc);
+    wiringPiISR(PHOTO, INT_EDGE_RISING, &photoFunc);
+    wiringPiISR(VIDEO, INT_EDGE_RISING, &videoFunc);
 
     while (1)
 	{
