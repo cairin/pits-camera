@@ -51,11 +51,12 @@ int main(void)
 	}
 
 	// Set up I/O
-	if (wiringPiSetup() == -1)
-	{
-		printf("Cannot initialise WiringPi\n");
-		exit (1);
-	}
+	wiringPilSetupGpio();
+	// if (wiringPiSetup() == -1)
+	// {
+	// 	printf("Cannot initialise WiringPi\n");
+	// 	exit (1);
+	// }
 
     // Code for sending a command to camera.
 
