@@ -1,5 +1,5 @@
 #! /bin/sh
-# /etc/init.d/tracker
+# /etc/init.d/camera
 #
 
 # Some things that run always
@@ -8,14 +8,14 @@ touch /var/lock/camera
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
-    echo "Starting script tracker "
+    echo "Starting script camera "
     /home/pi/pits-camera/camera/startup &
     ;;
   stop)
-    echo "Stopping script tracker"
+    echo "Stopping script camera"
     ;;
   *)
-    echo "Usage: /etc/init.d/tracker {start|stop}"
+    echo "Usage: /etc/init.d/camera {start|stop}"
     exit 1
     ;;
 esac
