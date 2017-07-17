@@ -24,7 +24,7 @@
 #include "usb.h"
 
 #define PHOTO 4
-#define VIDEO 4
+#define VIDEO 5
 int FileName = 0;
 
 
@@ -51,12 +51,11 @@ int main(void)
 	}
 
 	// Set up I/O
-	wiringPiSetupGpio();
-	// if (wiringPiSetup() == -1)
-	// {
-	// 	printf("Cannot initialise WiringPi\n");
-	// 	exit (1);
-	// }
+	if (wiringPiSetup() == -1)
+	{
+		printf("Cannot initialise WiringPi\n");
+		exit (1);
+	}
 
     // Code for sending a command to camera.
 
