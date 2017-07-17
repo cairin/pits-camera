@@ -28,8 +28,10 @@
 
 // Handle photo capture interrupt
 void photoFunc(void){
-	char PhotoCommand[50];
-    // sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%u.jpg", (unsigned)time(NULL));
+	char PhotoCommand[1000];
+	// char buf[1000] = {0};
+	// snprintf(buf, 999, ....);
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%u.jpg", (unsigned)time(NULL));
 }
 // Handle video capture interrupt
 void videoFunc(void){
