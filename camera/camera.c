@@ -29,11 +29,7 @@
 // Handle photo capture interrupt
 void photoFunc(void){
 	char PhotoCommand[1000];
-	// char buf[1000] = {0};
-	// snprintf(buf, 999, ....);
-
-    sprintf( PhotoCommand, "echo test%u", (unsigned)time(NULL));
-    // sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o /home/pi/pits-camera/camera/photos/%u.jpg", (unsigned)time(NULL));
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o /home/pi/pits-camera/camera/photos/%u.jpg", (unsigned)time(NULL));
 	system(PhotoCommand);
 }
 // Handle video capture interrupt
