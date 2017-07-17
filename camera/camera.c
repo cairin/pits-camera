@@ -25,14 +25,11 @@
 
 #define PHOTO 4
 #define VIDEO 5
-int FileName = 0;
-
 
 // Handle photo capture interrupt
 void photoFunc(void){
-	FileName += 1;
 	char PhotoCommand[50];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", (char)FileName);
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%u.jpg", (unsigned)time(NULL));
 }
 // Handle video capture interrupt
 void videoFunc(void){
