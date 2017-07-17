@@ -41,7 +41,8 @@ void *USBLoop(void* notused)
         serialPuts (handle, health);
         sleep(2);
         int responseLen =  serialDataAvail(handle);
-        for(int i = 0; i<responseLen; i++) {
+        int i;
+        for(i = 0; i<responseLen; i++) {
             response[i] = serialGetchar(handle);
         }
         if(strcmp(response,"OKAY") == 0) {
@@ -62,7 +63,8 @@ void *USBLoop(void* notused)
             serialPuts (handle, eject);
             sleep(2);
             int responseLen =  serialDataAvail(handle);
-            for(int i = 0; i<responseLen; i++) {
+            int i;
+            for(i = 0; i<responseLen; i++) {
                 ejectResponse[i] = serialGetchar(handle);
             }
             if(strcmp(ejectResponse,"READY") == 0) {
