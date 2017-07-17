@@ -41,19 +41,19 @@ void videoFunc(void){
 
 int main(void)
 {
+	// Set up I/O
+	if (wiringPiSetup() == -1)
+	{
+		printf("Cannot initialise WiringPi\n");
+		exit (1);
+	}
+
 	pthread_t USBThread;
 
 	if (pthread_create(&USBThread, NULL, USBLoop, NULL))
 	{
 		fprintf(stderr, "Error creating USB thread\n");
 		return 1;
-	}
-
-	// Set up I/O
-	if (wiringPiSetup() == -1)
-	{
-		printf("Cannot initialise WiringPi\n");
-		exit (1);
 	}
 
     // Code for sending a command to camera.

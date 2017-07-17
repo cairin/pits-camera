@@ -22,6 +22,7 @@
 
 #define READY 22 // set hi to allow flight computer to know if capsule is ready for release.
 #define RELEASE 23 // in case of emergency release.
+#define DEAD 21 // If NOGO response is received.
 
 void *USBLoop(void* notused)
 {
@@ -29,15 +30,52 @@ void *USBLoop(void* notused)
     int handle = serialOpen ("/dev/ttyAMA0", 19200);
 
 	// We have 2 LED outputs
-	// pinMode (Config.LED_Warn, OUTPUT);
-	// pinMode (Config.LED_OK, OUTPUT);
+	pinMode (READY, OUTPUT);
+	pinMode (DEAD, OUTPUT);
+	pinMode (RELEASE, INPUT);
 
 	while (1)
 	{
-        // serialPuts (handle,char *s) ;
-		// digitalWrite (Config.LED_Warn, (GPS->Satellites < 4) && (GPS->Altitude < 2000) && (GPS->MessageCount & 1));
-		// digitalWrite (Config.LED_OK, (GPS->Satellites >= 4) && (GPS->Altitude < 2000) && (Flash ^= 1));
+        char *health = "HEALTH?";
+        char response[10];
+        serialPuts (handle, health);
+        sleep(2);
+        int responseLen =  serialDataAvail(handle);
+        for(int i = 0; i<responseLen; i++) {
+            response[i] = serialGetchar(handle);
+        }
+        if(strcmp(response,"OKAY") == 0) {
+            // Capsule is okay.
+            digitalWrite (DEAD, 0);
+        }
+        else if(strcmp(response,"NOGO") == 0) {
+            // Capsule is dead.
+            digitalWrite (DEAD, 1);
+        }
+        else{
+            // response is garbled.
+        }
+        if(digitalRead(RELEASE)) {
+            // Other flight computer has initiated a release.
+            char *eject = "EJECT";
+            char ejectResponse[10];
+            serialPuts (handle, eject);
+            sleep(2);
+            int responseLen =  serialDataAvail(handle);
+            for(int i = 0; i<responseLen; i++) {
+                ejectResponse[i] = serialGetchar(handle);
+            }
+            if(strcmp(ejectResponse,"READY") == 0) {
+                // Capsule is okay.
+                digitalWrite (READY, 1);
+            }
+            else{
+                // response is garbled.
+            }
+        }
 
+		//
+		// digitalWrite (Config.LED_OK, (GPS->Satellites >= 4) && (GPS->Altitude < 2000) && (Flash ^= 1));
 		sleep(1);
 	}
     serialClose(handle);
