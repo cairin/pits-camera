@@ -24,18 +24,44 @@
 #define RELEASE 23 // in case of emergency release.
 #define DEAD 21 // If NOGO response is received.
 
+void releasefunc(void) {
+    // Other flight computer has initiated a release. A release will only be initiated if the capsule has not been declared DEAD.
+    char *eject = "EJECT";
+    char ejectResponse[10];
+    serialFlush(handle);
+    serialPuts (handle, eject);
+    sleep(2);
+    int responseLen =  serialDataAvail(handle);
+    int i;
+    for(i = 0; i<responseLen; i++) {
+        ejectResponse[i] = serialGetchar(handle);
+    }
+    if(strcmp(ejectResponse,"READY") == 0) {
+        // Capsule is ready for release.
+        digitalWrite (READY, 1);
+    }
+    else{
+        // response is garbled.
+        digitalWrite (READY, 0);
+        releasefunc();
+    }
+}
+
 void *USBLoop(void* notused)
 {
     // Open serial channel.
-    int handle = serialOpen ("/dev/ttyAMA0", 19200);
+    int handle = serialOpen("/dev/ttyAMA0", 19200);
 
 	// We have 2 LED outputs
 	pinMode (READY, OUTPUT);
 	pinMode (DEAD, OUTPUT);
 	pinMode (RELEASE, INPUT);
 
+    wiringPiISR(RELEASE, INT_EDGE_RISING, &releasefunc);
+    // TODO Implement functionality if capsule is critical.
 	while (1)
 	{
+        serialFlush(handle);
         char *health = "HEALTH?";
         char response[10];
         serialPuts (handle, health);
@@ -54,31 +80,9 @@ void *USBLoop(void* notused)
             digitalWrite (DEAD, 1);
         }
         else{
-            // response is garbled.
+            // response is garbled, do nothing.
         }
-        if(digitalRead(RELEASE)) {
-            // Other flight computer has initiated a release.
-            char *eject = "EJECT";
-            char ejectResponse[10];
-            serialPuts (handle, eject);
-            sleep(2);
-            int responseLen =  serialDataAvail(handle);
-            int i;
-            for(i = 0; i<responseLen; i++) {
-                ejectResponse[i] = serialGetchar(handle);
-            }
-            if(strcmp(ejectResponse,"READY") == 0) {
-                // Capsule is okay.
-                digitalWrite (READY, 1);
-            }
-            else{
-                // response is garbled.
-            }
-        }
-
-		//
-		// digitalWrite (Config.LED_OK, (GPS->Satellites >= 4) && (GPS->Altitude < 2000) && (Flash ^= 1));
-		sleep(1);
+        sleep(1);
 	}
     serialClose(handle);
 	return 0;

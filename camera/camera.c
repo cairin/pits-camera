@@ -29,7 +29,7 @@
 // Handle photo capture interrupt
 void photoFunc(void){
 	char PhotoCommand[1000];
-    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o /home/pi/pits-camera/camera/photos/%u.jpg", (unsigned)time(NULL));
+    sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o /home/pi/pits-camera/camera/photos/%u.jpg &disown", (unsigned)time(NULL));
 	system(PhotoCommand);
 }
 // Handle video capture interrupt
@@ -64,7 +64,6 @@ int main(void)
     // Perform capture of footage on GPIO signals.
     wiringPiISR(PHOTO, INT_EDGE_RISING, &photoFunc);
     wiringPiISR(VIDEO, INT_EDGE_RISING, &videoFunc);
-
     while (1)
 	{
         // Do nothing..
