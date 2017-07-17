@@ -23,14 +23,14 @@
 
 #include "usb.h"
 
-#define PHOTO 4;
-#define VIDEO 4;
+#define PHOTO 4
+#define VIDEO 4
 int FileName = 0;
 
 
 // Handle photo capture interrupt
 void photoFunc(void){
-	int FileName += 1;
+	FileName += 1;
 	char PhotoCommand[50];
     sprintf( PhotoCommand, "raspistill -st -w 2592 -h 1944 -t 3000 -ex auto -mm matrix -o ./photos/%s.jpg", FileName);
 }
