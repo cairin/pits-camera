@@ -23,9 +23,9 @@
 
 #include "misc.h"
 
-#define PHOTO 4
-#define VIDEO 4
-int FileName = 0
+#define PHOTO 4;
+#define VIDEO 4;
+int FileName = 0;
 
 
 // Handle photo capture interrupt
