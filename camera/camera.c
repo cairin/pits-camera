@@ -51,7 +51,7 @@ int main(void)
 	}
 
 	// Set up I/O
-	wiringPilSetupGpio();
+	wiringPiSetupGpio();
 	// if (wiringPiSetup() == -1)
 	// {
 	// 	printf("Cannot initialise WiringPi\n");
