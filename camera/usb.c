@@ -24,6 +24,8 @@
 #define RELEASE 23 // in case of emergency release.
 #define DEAD 21 // If NOGO response is received.
 
+int handle = serialOpen("/dev/ttyAMA0", 19200);
+
 void releasefunc(void) {
     // Other flight computer has initiated a release. A release will only be initiated if the capsule has not been declared DEAD.
     char *eject = "EJECT";
@@ -49,10 +51,6 @@ void releasefunc(void) {
 
 void *USBLoop(void* notused)
 {
-    // Open serial channel.
-    int handle = serialOpen("/dev/ttyAMA0", 19200);
-
-	// We have 2 LED outputs
 	pinMode (READY, OUTPUT);
 	pinMode (DEAD, OUTPUT);
 	pinMode (RELEASE, INPUT);
