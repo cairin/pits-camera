@@ -65,7 +65,7 @@ void *USBLoop(void* notused)
         char *health = "HEALTH?";
         char response[10];
         serialPuts (handle, health);
-        sleep(2);
+        sleep(5);
         int responseLen =  serialDataAvail(handle);
         int i;
         for(i = 0; i<responseLen; i++) {
