@@ -32,7 +32,7 @@ void releasefunc(void) {
     char ejectResponse[10];
     serialFlush(HANDLE);
     serialPuts (HANDLE, eject);
-    sleep(2);
+    sleep(5);
     int responseLen =  serialDataAvail(HANDLE);
     int i;
     for(i = 0; i<responseLen; i++) {
@@ -54,6 +54,9 @@ void *USBLoop(void* notused)
 	pinMode (READY, OUTPUT);
 	pinMode (DEAD, OUTPUT);
 	pinMode (RELEASE, INPUT);
+
+    digitalWrite (DEAD, 0);
+    digitalWrite (READY, 0);
 
     wiringPiISR(RELEASE, INT_EDGE_RISING, &releasefunc);
     // TODO Implement functionality if capsule is critical.
