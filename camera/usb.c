@@ -66,18 +66,14 @@ void *USBLoop(void* notused)
         char *health = "HEALTH?";
         serialPuts (HANDLE, health);
         sleep(5);
-        int responseLen =  serialDataAvail(HANDLE);
-        char response[responseLen];
-        int i;
-        for(i = 0; i<responseLen; i++) {
-            response[i] = serialGetchar(HANDLE);
-        }
-        serialPuts (HANDLE, response);
-        if(strcmp(response,"OKAY") == 0) {
+        // int responseLen =  serialDataAvail(HANDLE);
+        char response = serialGetchar(HANDLE);
+        serialPuts (HANDLE, "response");
+        if(response == 'O') {
             // Capsule is okay.
             digitalWrite (DEAD, 0);
         }
-        else if(strcmp(response,"NOGO") == 0) {
+        else if(response == 'N') == 0) {
             // Capsule is dead.
             digitalWrite (DEAD, 1);
         }
