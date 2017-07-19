@@ -20,63 +20,39 @@
 #include <ctype.h>
 #include <inttypes.h>
 
-#define READY 22 // set hi to allow flight computer to know if capsule is ready for release.
-#define RELEASE 23 // in case of emergency release.
-#define DEAD 21 // If NOGO response is received.
+#define READY 22 // set HIGH to put capsule in flight mode.
+#define RELEASE 23
+#define DEAD 21 // set HIGH if capsule healthy.
+#define CAPSULE 25
 
 #define HANDLE serialOpen("/dev/ttyACM0", 38400)
 
 void releasefunc(void) {
     // Other flight computer has initiated a release. A release will only be initiated if the capsule has not been declared DEAD.
-    char *eject = "EJECT";
-    serialFlush(HANDLE);
-    serialPuts (HANDLE, eject);
-    sleep(5);
-    char ejectResponse = serialGetchar(HANDLE);
-    if(ejectResponse == 'R') {
-        // Capsule is ready for release.
-        digitalWrite (READY, 1);
-    }
-    else{
-        // response is garbled.
-        digitalWrite (READY, 0);
-        releasefunc();
-    }
+    digitalWrite (READY, 1);
 }
 
 void *USBLoop(void* notused)
 {
-	pinMode (READY, OUTPUT);
-	pinMode (DEAD, OUTPUT);
-	pinMode (RELEASE, INPUT);
+	pinMode (READY, OUTPUT); // To capsule.
+	pinMode (DEAD, OUTPUT); // To flight computer.
+	pinMode (RELEASE, INPUT); // To flight computer.
+    pinmode (CAPSULE, INPUT); // To capsule.
 
     digitalWrite (DEAD, 0);
     digitalWrite (READY, 0);
-
     wiringPiISR(RELEASE, INT_EDGE_RISING, &releasefunc);
-    // TODO Implement functionality if capsule is critical.
-	while (1)
-	{
-        serialFlush(HANDLE);
-        char *health = "HEALTH?";
-        serialPuts (HANDLE, health);
-        sleep(5);
-        // int responseLen =  serialDataAvail(HANDLE);
-        char response = serialGetchar(HANDLE);
-        serialPuts (HANDLE, "response");
-        if(response == 'O') {
+
+	while (1) {
+        if(digitalRead(CAPSULE) == 1) {
             // Capsule is okay.
             digitalWrite (DEAD, 0);
         }
-        else if(response == 'N') {
+        else if(digitalRead(CAPSULE) == 0) {
             // Capsule is dead.
             digitalWrite (DEAD, 1);
         }
-        else{
-            // response is garbled, do nothing.
-        }
-        sleep(1);
+        sleep(5);
 	}
-    serialClose(HANDLE);
 	return 0;
 }
