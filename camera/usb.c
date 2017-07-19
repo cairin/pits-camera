@@ -33,12 +33,8 @@ void releasefunc(void) {
     serialFlush(HANDLE);
     serialPuts (HANDLE, eject);
     sleep(5);
-    int responseLen =  serialDataAvail(HANDLE);
-    int i;
-    for(i = 0; i<responseLen; i++) {
-        ejectResponse[i] = serialGetchar(HANDLE);
-    }
-    if(strcmp(ejectResponse,"READY") == 0) {
+    char ejectResponse = serialGetchar(HANDLE);
+    if(ejectResponse == 'R') {
         // Capsule is ready for release.
         digitalWrite (READY, 1);
     }
