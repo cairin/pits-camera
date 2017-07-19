@@ -64,10 +64,10 @@ void *USBLoop(void* notused)
 	{
         serialFlush(HANDLE);
         char *health = "HEALTH?";
-        char response[10];
         serialPuts (HANDLE, health);
         sleep(5);
         int responseLen =  serialDataAvail(HANDLE);
+        char response[responseLen];
         int i;
         for(i = 0; i<responseLen; i++) {
             response[i] = serialGetchar(HANDLE);
