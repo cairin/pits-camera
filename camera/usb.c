@@ -73,7 +73,7 @@ void *USBLoop(void* notused)
             // Capsule is okay.
             digitalWrite (DEAD, 0);
         }
-        else if(response == 'N') == 0) {
+        else if(response == 'N') {
             // Capsule is dead.
             digitalWrite (DEAD, 1);
         }
