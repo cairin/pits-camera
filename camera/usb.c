@@ -72,6 +72,7 @@ void *USBLoop(void* notused)
         for(i = 0; i<responseLen; i++) {
             response[i] = serialGetchar(HANDLE);
         }
+        serialPuts (HANDLE, response);
         if(strcmp(response,"OKAY") == 0) {
             // Capsule is okay.
             digitalWrite (DEAD, 0);
