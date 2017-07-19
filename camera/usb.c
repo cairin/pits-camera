@@ -37,7 +37,7 @@ void *USBLoop(void* notused)
 	pinMode (READY, OUTPUT); // To capsule.
 	pinMode (DEAD, OUTPUT); // To flight computer.
 	pinMode (RELEASE, INPUT); // To flight computer.
-    pinmode (CAPSULE, INPUT); // To capsule.
+    pinMode (CAPSULE, INPUT); // To capsule.
 
     digitalWrite (DEAD, 0);
     digitalWrite (READY, 0);
