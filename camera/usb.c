@@ -29,7 +29,6 @@
 void releasefunc(void) {
     // Other flight computer has initiated a release. A release will only be initiated if the capsule has not been declared DEAD.
     char *eject = "EJECT";
-    char ejectResponse[10];
     serialFlush(HANDLE);
     serialPuts (HANDLE, eject);
     sleep(5);
