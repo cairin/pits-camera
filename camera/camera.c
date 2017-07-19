@@ -35,7 +35,7 @@ void photoFunc(void){
 // Handle video capture interrupt
 void videoFunc(void){
 	char VideoCommand[1000];
-    sprintf( VideoCommand, "raspivid -t 180000 -w 1280 -h 720 -fps 60 -o /home/pi/pits-camera/camera/video/%u.h264 & disown", (unsigned)time(NULL));
+    sprintf( VideoCommand, "raspivid -t 180000 -w 1920 -h 1080 -fps 30 -o /home/pi/pits-camera/camera/video/%u.h264 & disown", (unsigned)time(NULL));
 	system(VideoCommand);
 }
 
